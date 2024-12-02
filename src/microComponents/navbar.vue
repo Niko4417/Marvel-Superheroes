@@ -28,7 +28,7 @@ import router from "../router/index.js";
 
         <v-list density="compact" nav>
           <v-list-item prepend-icon="mdi-earth" title="Explore"
-                       @click="router.push({ path: '/categories' })"></v-list-item>
+                       @click="router.push({ path: '/characters' })";></v-list-item>
           <v-list-item prepend-icon="mdi-heart" title="Favorites"
                        @click="router.push({ path: '/favorites' })"></v-list-item>
           <v-list-item prepend-icon="mdi-lightbulb-outline" title="Fun Facts"

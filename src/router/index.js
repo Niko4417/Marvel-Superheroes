@@ -4,8 +4,8 @@ import home from "../components/home.vue";
 const routes = [
     { path: '/', name: "home", component: home },
     {
-        path: '/categories',
-        name: "categories",
+        path: '/characters',
+        name: "characters",
         component: () => import('../components/displayData.vue')
     },
     {
