@@ -1,4 +1,4 @@
-<!-- Favorites.vue -->
+
 <template>
   <h1>Favorisierte Charaktere</h1>
   <v-divider></v-divider>
@@ -72,5 +72,5 @@ const removeFromFavorites = (characterId) => {
 </script>
 
 <style scoped>
-/* Add any additional styling here */
+
 </style>

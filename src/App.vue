@@ -4,7 +4,7 @@ import Navbar from "./microComponents/navbar.vue";
 
 <template>
   <navbar/>
-  <router-view />
+    <router-view></router-view>
 </template>
 
 <style scoped>

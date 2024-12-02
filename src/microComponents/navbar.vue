@@ -26,14 +26,14 @@ import router from "../router/index.js";
 
         <v-divider></v-divider>
 
-        <v-list density="compact" nav>
-          <v-list-item prepend-icon="mdi-earth" title="Explore"
-                       @click="router.push({ path: '/characters' })";></v-list-item>
-          <v-list-item prepend-icon="mdi-heart" title="Favorites"
-                       @click="router.push({ path: '/favorites' })"></v-list-item>
-          <v-list-item prepend-icon="mdi-lightbulb-outline" title="Fun Facts"
-                       @click="router.push({ path: '/funfacts' })"></v-list-item>
-        </v-list>
+          <v-list density="compact" nav>
+            <v-list-item prepend-icon="mdi-earth" title="Explore"
+                         @click="router.push({ path: '/categories' })"></v-list-item>
+            <v-list-item prepend-icon="mdi-heart" title="Favorites"
+                         @click="router.push({ path: '/favorites' })"></v-list-item>
+            <v-list-item prepend-icon="mdi-lightbulb-outline" title="Fun Facts"
+                         @click="router.push({ path: '/funfacts' })"></v-list-item>
+          </v-list>
       </v-navigation-drawer>
 
     </v-layout>

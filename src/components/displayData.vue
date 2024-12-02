@@ -1,13 +1,21 @@
 <template>
   <h1>Marvel Characters</h1>
   <v-divider></v-divider>
-  <div v-if="isLoading">
+
+
+  <div>
+    <v-btn @click="fetchCharacters">
+      {{ 'Charaktere laden' }}
+    </v-btn>
+  </div>
+
+
+  <div style="margin-top: 10px " v-if="isLoading">
     <v-progress-circular indeterminate color="primary"></v-progress-circular>
   </div>
-  <div v-else>
-    <div v-if="errorMessage">
-      <v-alert type="error">{{ errorMessage }}</v-alert>
-    </div>
+
+
+  <div v-else-if="characters.length > 0">
     <v-container fluid>
       <v-row>
         <v-col
@@ -57,31 +65,32 @@
           </v-card>
         </v-col>
       </v-row>
-      <!-- Button to Fetch New Characters -->
-      <v-btn @click="fetchCharacters" :disabled="isLoading">
-        Neue Charaktere laden
-      </v-btn>
     </v-container>
+  </div>
+
+
+  <div v-else-if="errorMessage">
+    <v-alert type="error">{{ errorMessage }}</v-alert>
   </div>
 </template>
 
 <script setup>
-import {ref, onMounted, onBeforeMount} from 'vue';
+import {ref} from 'vue';
 import axios from 'axios';
 import md5 from 'crypto-js/md5';
-import {useFavoritesStore} from '../stores/favorites'; // Adjust the path based on your project structure
+import {useFavoritesStore} from '../stores/favorites';
 
 const characters = ref([]);
-const isLoading = ref(true);
+const isLoading = ref(false);
 const errorMessage = ref('');
 
 const favoritesStore = useFavoritesStore();
 
-// Marvel API keys (use environment variables)
+
 const publicKey = import.meta.env.VITE_MARVEL_PUBLIC_KEY;
 const privateKey = import.meta.env.VITE_MARVEL_PRIVATE_KEY;
 
-// Function to generate timestamp and hash
+
 const generateAuthParams = () => {
   const ts = Date.now().toString();
   const hash = md5(ts + privateKey + publicKey).toString();
@@ -92,12 +101,12 @@ const fetchCharacters = async () => {
   try {
     isLoading.value = true;
     errorMessage.value = '';
-    characters.value = []; // Empty the array on API call
+    characters.value = [];
 
-    const limit = 100; // Fetch 100 characters to increase chances
-    const desiredCharactersCount = 8; // Number of characters to display
+    const limit = 100;
+    const desiredCharactersCount = 8;
 
-    // Get the total number of characters available
+
     const {ts, hash} = generateAuthParams();
     const totalResponse = await axios.get(
         'https://gateway.marvel.com/v1/public/characters',
@@ -106,7 +115,7 @@ const fetchCharacters = async () => {
             ts,
             apikey: publicKey,
             hash,
-            limit: 1, // Fetching one to get the total
+            limit: 1,
           },
         }
     );
@@ -120,9 +129,9 @@ const fetchCharacters = async () => {
     let totalFetched = 0;
     const characterIds = new Set();
 
-    // Continue fetching until we have 8 unique characters with descriptions
+
     while (characters.value.length < desiredCharactersCount && totalFetched < totalCharacters) {
-      const {ts, hash} = generateAuthParams(); // Generate new auth params for each request
+      const {ts, hash} = generateAuthParams();
       const response = await axios.get(
           'https://gateway.marvel.com/v1/public/characters',
           {
@@ -138,7 +147,7 @@ const fetchCharacters = async () => {
 
       const fetchedCharacters = response.data.data.results;
 
-      // Filter characters with descriptions and not already added
+
       const newCharacters = fetchedCharacters.filter(
           (character) =>
               character.description &&
@@ -146,7 +155,7 @@ const fetchCharacters = async () => {
               !characterIds.has(character.id)
       );
 
-      // Add new characters to the array and update the set of IDs
+
       newCharacters.forEach((character) => {
         if (characters.value.length < desiredCharactersCount) {
           characters.value.push({
@@ -163,7 +172,7 @@ const fetchCharacters = async () => {
       totalFetched += fetchedCharacters.length;
       offset = (offset + limit) % totalCharacters;
 
-      // Break if we've fetched all available characters
+
       if (totalFetched >= totalCharacters) {
         break;
       }
@@ -188,11 +197,8 @@ const isFavorited = (characterId) => {
   return favoritesStore.isFavorited(characterId);
 };
 
-onBeforeMount(() => {
-  fetchCharacters();
-});
 </script>
 
 <style scoped>
-/* Add any additional styling here */
+
 </style>

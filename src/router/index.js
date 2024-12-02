@@ -4,8 +4,8 @@ import home from "../components/home.vue";
 const routes = [
     { path: '/', name: "home", component: home },
     {
-        path: '/characters',
-        name: "characters",
+        path: '/categories',
+        name: "categories",
         component: () => import('../components/displayData.vue')
     },
     {
@@ -21,7 +21,7 @@ const routes = [
 ]
 
 const router = createRouter({
-    history: createWebHistory(),  // Use web history
+    history: createWebHistory(),
     routes: routes,
 });
 
