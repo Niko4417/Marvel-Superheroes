@@ -12,8 +12,10 @@
   "dependencies": {
     "@mdi/font": "^7.4.47",
     "axios": "^1.7.5",
+    "crypto-js": "^4.2.0",
+    "dotenv": "^16.4.5",
     "eslint": "^9.9.1",
-    "pinia": "^2.2.2",
+    "pinia": "^2.2.8",
     "prettier": "^3.3.3",
     "vitest": "^2.0.5",
     "vue": "^3.4.37",

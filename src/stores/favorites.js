@@ -1,26 +1,21 @@
-import { defineStore } from 'pinia'
+// src/stores/favorites.js
+import { defineStore } from 'pinia';
 
 export const useFavoritesStore = defineStore('favorites', {
     state: () => ({
-        favoriteCharacters: [],
-        favoriteComics: []
+        favorites: [],
     }),
     actions: {
-        addFavoriteCharacter(character) {
-            if (!this.favoriteCharacters.find(c => c.id === character.id)) {
-                this.favoriteCharacters.push(character)
+        addFavorite(character) {
+            if (!this.favorites.find((fav) => fav.id === character.id)) {
+                this.favorites.push(character);
             }
         },
-        removeFavoriteCharacter(characterId) {
-            this.favoriteCharacters = this.favoriteCharacters.filter(c => c.id !== characterId)
+        removeFavorite(characterId) {
+            this.favorites = this.favorites.filter((fav) => fav.id !== characterId);
         },
-        addFavoriteComic(comic) {
-            if (!this.favoriteComics.find(c => c.id === comic.id)) {
-                this.favoriteComics.push(comic)
-            }
+        isFavorited(characterId) {
+            return this.favorites.some((fav) => fav.id === characterId);
         },
-        removeFavoriteComic(comicId) {
-            this.favoriteComics = this.favoriteComics.filter(c => c.id !== comicId)
-        }
-    }
-})
+    },
+});
