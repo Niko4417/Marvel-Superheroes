@@ -28,7 +28,7 @@
   </div>
 </template>
 <script setup>
-import { ref } from 'vue';
+import {ref} from 'vue';
 import axios from 'axios';
 import md5 from 'crypto-js/md5';
 
@@ -44,7 +44,7 @@ const privateKey = import.meta.env.VITE_MARVEL_PRIVATE_KEY;
 const generateAuthParams = () => {
   const ts = Date.now().toString();
   const hash = md5(ts + privateKey + publicKey).toString();
-  return { ts, hash };
+  return {ts, hash};
 };
 
 const fetchFunFact = async () => {
@@ -57,9 +57,7 @@ const fetchFunFact = async () => {
     const endpoints = ['characters', 'comics', 'events', 'series', 'stories'];
     const randomEndpoint =
         endpoints[Math.floor(Math.random() * endpoints.length)];
-
-    const limit = 1; // Fetch one item
-    const { ts, hash } = generateAuthParams();
+    const {ts, hash} = generateAuthParams();
 
 
     const totalResponse = await axios.get(
@@ -75,7 +73,6 @@ const fetchFunFact = async () => {
     );
 
     const totalItems = totalResponse.data.data.total;
-
 
     const offset = Math.floor(Math.random() * totalItems);
 
@@ -125,7 +122,7 @@ const fetchFunFact = async () => {
         description = 'Keine Beschreibung verfügbar.';
     }
 
-    funFact.value = { title, description };
+    funFact.value = {title, description};
   } catch (error) {
     console.error('Error fetching fun fact:', error);
     errorMessage.value = 'Fehler beim Laden des Fun Facts.';

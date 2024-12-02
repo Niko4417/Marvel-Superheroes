@@ -1,5 +1,4 @@
-// src/stores/favorites.js
-import { defineStore } from 'pinia';
+import {defineStore} from 'pinia';
 
 export const useFavoritesStore = defineStore('favorites', {
     state: () => ({

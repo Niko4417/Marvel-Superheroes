@@ -106,7 +106,6 @@ const fetchCharacters = async () => {
     const limit = 100;
     const desiredCharactersCount = 8;
 
-
     const {ts, hash} = generateAuthParams();
     const totalResponse = await axios.get(
         'https://gateway.marvel.com/v1/public/characters',
@@ -122,7 +121,6 @@ const fetchCharacters = async () => {
 
     const totalCharacters = totalResponse.data.data.total;
 
-    // Generate a random offset
     const maxOffset = totalCharacters - limit;
     let offset = Math.floor(Math.random() * maxOffset);
 
