@@ -1,3 +1,6 @@
 [submodule "MS_Frontend"]
 	path = MS_Frontend
 	url = https://github.com/Niko4417/MS_Frontend
+[submodule "MS_Backend"]
+	path = MS_Backend
+	url = https://github.com/Niko4417/MS_Backend
