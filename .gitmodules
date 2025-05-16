@@ -1,0 +1,3 @@
+[submodule "MS_Frontend"]
+	path = MS_Frontend
+	url = https://github.com/Niko4417/MS_Frontend
