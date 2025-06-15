@@ -29,6 +29,8 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-central-1
 
-
       - name: Deploy to AWS S3
         run: aws s3 sync dist/ s3://marvel-superheroes-niko4417  --delete
+
+      - name: Invalidate Cloundfront Cache
+        run: aws cloudfront create-invalidation --distribution-id E37M4RB516W7LB --paths "/*"
