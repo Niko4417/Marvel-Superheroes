@@ -1,7 +1,12 @@
 # Deploying a Vue App to S3 and CloudFront with Github Actions
-This guide explains how to build and deploy your Vue frontend application to an AWS S3 bucket using the AWS CLI.
+This guide explains how to build and deploy your Vue frontend application to an AWS S3 bucket and Cloudfront.
 
 ## Architecture Diagram ![](/docs/Architecture_Cloundfront.png)
+
+
+---
+<details>
+  <summary>Legacy workflow (GitHub Actions → S3 + CloudFront, no Terraform)</summary>
 
 ## Prerequisites
 
@@ -9,9 +14,7 @@ This guide explains how to build and deploy your Vue frontend application to an 
 - AWS CLI installed ([Install Guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html))
 - AWS account with IAM user + access key
 - Webapp with a build-ready structure (` npm run build`)
-
-<details>
-  <summary>Legacy workflow (GitHub Actions → S3 + CloudFront, no Terraform)</summary>
+- 
 # 🚀 How to do it
 
 ### 1. Build the App
