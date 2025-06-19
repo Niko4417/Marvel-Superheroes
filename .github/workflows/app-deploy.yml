@@ -46,7 +46,7 @@ jobs:
         run: |
           RUN_ID=$(gh run list -w infra-deploy.yml \
                                -s success -L 1 --json id |
-                   jq -r '.[0].database.id')
+                   jq -r '.[0].id')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download Terraform Outputs
