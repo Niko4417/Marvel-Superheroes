@@ -3,7 +3,7 @@ bucket_name = "Marvel-Superheroes"
 error_doc   = "index.html"
 
 tags = {
-  project = "Marvel-Superheroes"
+  project = "marvel-superheroes"
   owner   = "Nikolaos Vasilopoulos"
 }
 
