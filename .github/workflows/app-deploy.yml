@@ -46,14 +46,14 @@ jobs:
         run: |
           RUN_ID=$(gh run list -w infra-deploy.yml \
                                -s success -L 1 --json databaseId |
-                   jq -r '.[0].id')
+                   jq -r '.[0].DatabaseId')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download Terraform Outputs
         uses: actions/download-artifact@v4
         with:
           name: terraform-outputs
-          run-id: ${{ steps.infra-deploy.outputs.run-id }}
+          run-id: ${{ steps.infra.outputs.run-id }}
           github-token: ${{secrets.WORKFLOW_TOKEN}}
           path: .
 
