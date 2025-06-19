@@ -45,7 +45,7 @@ jobs:
       - name: Read Data from TF Output
         id: tf
         run: |
-          BUCKET=$(jq -r '.bucket_name.value' tf_outputs.json)
+          BUCKET=$(jq -r '.s3_bucket_name.value' tf_outputs.json)
           echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
 
       - name: Upload to AWS S3
