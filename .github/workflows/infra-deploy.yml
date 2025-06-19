@@ -40,5 +40,5 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: terraform-outputs
-          path: infra/deploy/s3_bucket/tf_outputs.json
+          path: tf_outputs.json
 
