@@ -46,7 +46,7 @@ jobs:
         run: |
           RUN_ID=$(gh run list -w "Create S3 Bucket" \
                                -s success -L 1 --json databaseId |
-                   jq -r '.[0].DatabaseId')
+                   jq -r '.[0].databaseId')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
 
       - name: Download Terraform Outputs
