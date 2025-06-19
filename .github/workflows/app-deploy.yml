@@ -44,7 +44,7 @@ jobs:
       - name: Get workflow run-id
         id: infra
         run: |
-          RUN_ID=$(gh run list -w infra-deploy.yml \
+          RUN_ID=$(gh run list -w "Create S3 Bucket" \
                                -s success -L 1 --json databaseId |
                    jq -r '.[0].DatabaseId')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
