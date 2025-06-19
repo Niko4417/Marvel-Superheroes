@@ -1,7 +1,9 @@
 region      = "eu-central-1"
-bucket_name = "vue-app-test-123456"
+bucket_name = "Marvel-Superheroes"
+error_doc   = "index.html"
 
 tags = {
-  project     = "Marvel-Superheroes"
-  owner="Nikolaos Vasilopoulos"
+  project = "Marvel-Superheroes"
+  owner   = "Nikolaos Vasilopoulos"
 }
+
