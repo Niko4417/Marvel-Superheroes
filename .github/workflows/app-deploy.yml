@@ -5,8 +5,9 @@ on:
       - master
 
     paths-ignore:
-      - "infra/**"
+      -  infra/*
       - .github/workflows/infra-deploy.yml
+      -  README.md
 jobs:
   deploy:
     runs-on: ubuntu-latest
