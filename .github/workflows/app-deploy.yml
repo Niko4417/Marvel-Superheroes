@@ -41,7 +41,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-        -name: Get workflow run-id
+      - name: Get workflow run-id
         id: infra
         run: |
           RUN_ID=$(gh run list -w infra.yml \
