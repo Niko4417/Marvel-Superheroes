@@ -45,7 +45,7 @@ jobs:
         id: infra
         run: |
           RUN_ID=$(gh run list -w infra-deploy.yml \
-                               -s success -L 1 --json id |
+                               -s success -L 1 --json databaseId |
                    jq -r '.[0].id')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
 
