@@ -24,13 +24,13 @@ npm run build
 ### 2. Create the S3 Bucket
 
 ```bash
-aws s3 mb s3://your-unique-bucket-name --region eu-central-1
+aws deploy mb deploy://your-unique-bucket-name --region eu-central-1
 ```
 
 **Verify the bucket:**
 
 ```bash
-aws s3 ls
+aws deploy ls
 ```
 
 ---
@@ -38,7 +38,7 @@ aws s3 ls
 ### 3. Upload Build Files to S3
 
 ```bash
-aws s3 sync dist/ s3://your-unique-bucket-name --delete
+aws deploy sync dist/ deploy://your-unique-bucket-name --delete
 ```
 
 ---
@@ -62,8 +62,8 @@ Replace `your-unique-bucket-name` in the JSON below:
       "Sid": "PublicReadGetObject",
       "Effect": "Allow",
       "Principal": "*",
-      "Action": "s3:GetObject",
-      "Resource": "arn:aws:s3:::your-unique-bucket-name/*"
+      "Action": "deploy:GetObject",
+      "Resource": "arn:aws:deploy:::your-unique-bucket-name/*"
     }
   ]
 }
@@ -107,7 +107,7 @@ The deployment workflow is defined in:
 .github/workflows/build-and.deploy.yml
 ```
 
- [View deploy.yml](./.github/workflows/build-and-deploy.yml)
+ [View deploy.yml](.github/workflows/app-deploy.yml)
 
 ---
 

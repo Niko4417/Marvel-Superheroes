@@ -1,0 +1,55 @@
+name: Deploy to AWS S3
+on:
+  push:
+    branches:
+      - master
+
+    paths-ignore:
+      - "infra/**"
+      - .github/workflows/infra-deploy.yml
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: eu-central-1
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: NodeJs Setup
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ secrets.node_version }}
+
+      - name: Dependency Installation
+        run: npm install
+
+      - name: App Build
+        run: npm run build
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download Terraform Outputs
+        uses: actions/download-artifact@v4
+        with:
+          name: terraform-outputs
+          path: .
+
+      - name: Read Data from TF Output
+        id: tf
+        run: |
+          BUCKET=$(jq -r '.bucket_name.value' tf_outputs.json)
+          echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
+
+      - name: Upload to AWS S3
+        run: aws s3 sync dist/ s3://${{ steps.tf.outputs.bucket }} --delete
+
+     # - name: Invalidate Cloundfront Cache
+      #  run: aws cloudfront create-invalidation --distribution-id E37M4RB516W7LB --paths "/*"
