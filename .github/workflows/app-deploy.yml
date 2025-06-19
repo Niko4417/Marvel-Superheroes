@@ -44,7 +44,7 @@ jobs:
       - name: Get workflow run-id
         id: infra
         run: |
-          RUN_ID=$(gh run list -w infra.yml \
+          RUN_ID=$(gh run list -w infra-deploy.yml \
                                -s success -L 1 --json database |
                    jq -r '.[0].database.id')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
@@ -55,7 +55,7 @@ jobs:
           name: terraform-outputs
           run-id: ${{ steps.infra.outputs.run-id }}
           github-token: ${{secrets.GITHUB_TOKEN}}
-          path: .
+          path: terraform
 
       - name: Read Data from TF Output
         id: tf
