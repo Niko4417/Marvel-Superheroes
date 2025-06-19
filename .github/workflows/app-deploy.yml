@@ -17,7 +17,7 @@ jobs:
 
     env:
       AWS_REGION: eu-central-1
-      GH_Token: ${{secrets.GITHUB_TOKEN}}
+      GH_Token: ${{secrets.WORKFLOW_TOKEN}}
 
     steps:
       - name: Checkout
@@ -54,7 +54,7 @@ jobs:
         with:
           name: terraform-outputs
           run-id: ${{ steps.infra-deploy.outputs.run-id }}
-          github-token: ${{secrets.GITHUB_TOKEN}}
+          github-token: ${{secrets.WORKFLOW_TOKEN}}
           path: terraform
 
       - name: Read Data from TF Output
