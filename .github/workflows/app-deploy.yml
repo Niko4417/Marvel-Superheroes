@@ -17,7 +17,7 @@ jobs:
 
     env:
       AWS_REGION: eu-central-1
-      GH_Token: ${{secrets.WORKFLOW_TOKEN}}
+      GH_TOKEN: ${{secrets.WORKFLOW_TOKEN}}
 
     steps:
       - name: Checkout
