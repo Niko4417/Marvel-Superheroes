@@ -10,3 +10,15 @@ module "website" {
   index_doc   = var.index_doc
   error_doc   = var.error_doc
 }
+
+output "website_url" {
+  value = module.website.bucket_website_url
+}
+
+output "s3_domain" {
+  value = module.website.bucket_domain_name
+}
+
+output "s3_bucket_name" {
+  value = module.website.bucket_name
+}
