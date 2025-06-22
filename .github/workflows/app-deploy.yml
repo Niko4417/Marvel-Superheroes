@@ -67,5 +67,5 @@ jobs:
       - name: Upload to AWS S3
         run: aws s3 sync dist/ s3://${{ steps.tf.outputs.bucket }} --delete
 
-     # - name: Invalidate Cloundfront Cache
+    # - name: Invalidate Cloundfront Cache
       #  run: aws cloudfront create-invalidation --distribution-id E37M4RB516W7LB --paths "/*"

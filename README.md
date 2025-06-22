@@ -3,18 +3,19 @@ This guide explains how to build and deploy your Vue frontend application to an 
 
 ## Architecture Diagram ![](/docs/Architecture_Cloundfront.png)
 
-
----
-<details>
-  <summary>Legacy workflow (GitHub Actions → S3 + CloudFront, no Terraform)</summary>
-
 ## Prerequisites
 
 - Node.js & npm installed
 - AWS CLI installed ([Install Guide](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html))
 - AWS account with IAM user + access key
 - Webapp with a build-ready structure (` npm run build`)
-- 
+- Terraform installed ([Install Guide](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli))
+
+---
+<details>
+  <summary>Legacy workflow (GitHub Actions → S3 + CloudFront, no Terraform)</summary>
+
+
 # 🚀 How to do it
 
 ### 1. Build the App
@@ -143,3 +144,4 @@ Every push to `master` automatically updates your app in production — no manua
 👉 **[Marvel Superheroes](https://d33sk0i4vssdzz.cloudfront.net/)**
 ---
 </details>
+
