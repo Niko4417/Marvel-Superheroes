@@ -9,6 +9,7 @@ module "website" {
   tags        = var.tags
   index_doc   = var.index_doc
   error_doc   = var.error_doc
+  cloudfront_oai_id  = var.cloudfront_oai_id
 }
 
 output "website_url" {

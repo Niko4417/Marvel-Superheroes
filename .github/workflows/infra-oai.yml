@@ -1,0 +1,44 @@
+name: Create CloudFront OAI
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'infra/oai/**'
+      - '.github/workflows/infra-oai.yml'
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_REGION: eu-central-1
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.7.5
+
+      - name: Terraform Init, Apply & Output
+        run: |
+          cd infra/oai
+          terraform init
+          terraform apply -auto-approve
+          terraform output -json > tf_outputs.json
+
+      - name: Upload tf_outputs.json as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: oai-terraform-outputs
+          path: infra/oai/tf_outputs.json

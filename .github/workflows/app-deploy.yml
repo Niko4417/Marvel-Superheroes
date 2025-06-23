@@ -1,13 +1,14 @@
-name: Deploy to AWS S3
+name: Deploy to AWS S3 and Invalidate CloudFront
+
 on:
   push:
     branches:
       - master
-
     paths-ignore:
-      -  infra/*
+      - infra/*
       - .github/workflows/infra-deploy.yml
-      -  README.md
+      - README.md
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -18,7 +19,7 @@ jobs:
 
     env:
       AWS_REGION: eu-central-1
-      GH_TOKEN: ${{secrets.WORKFLOW_TOKEN}}
+      GH_TOKEN: ${{ secrets.WORKFLOW_TOKEN }}
 
     steps:
       - name: Checkout
@@ -45,7 +46,7 @@ jobs:
       - name: Get workflow run-id
         id: infra
         run: |
-          RUN_ID=$(gh run list -w "Create S3 Bucket" \
+          RUN_ID=$(gh run list -w "Create Infrastructure (S3 + CloudFront)" \
                                -s success -L 1 --json databaseId |
                    jq -r '.[0].databaseId')
           echo "run-id=$RUN_ID" >> $GITHUB_OUTPUT
@@ -55,17 +56,22 @@ jobs:
         with:
           name: terraform-outputs
           run-id: ${{ steps.infra.outputs.run-id }}
-          github-token: ${{secrets.WORKFLOW_TOKEN}}
+          github-token: ${{ secrets.WORKFLOW_TOKEN }}
           path: .
 
-      - name: Read Data from TF Output
+      - name: Read Data from tf_outputs.json
         id: tf
         run: |
-          BUCKET=$(jq -r '.s3_bucket_name.value' tf_outputs.json)
+          BUCKET=$(jq -r '.bucket_name.value' tf_outputs.json)
+          DIST_ID=$(jq -r '.distribution_id.value' tf_outputs.json)
           echo "bucket=$BUCKET" >> $GITHUB_OUTPUT
+          echo "distribution_id=$DIST_ID" >> $GITHUB_OUTPUT
 
       - name: Upload to AWS S3
         run: aws s3 sync dist/ s3://${{ steps.tf.outputs.bucket }} --delete
 
-    # - name: Invalidate Cloundfront Cache
-      #  run: aws cloudfront create-invalidation --distribution-id E37M4RB516W7LB --paths "/*"
+      - name: Invalidate CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id "${{ steps.tf.outputs.distribution_id }}" \
+            --paths "/*"

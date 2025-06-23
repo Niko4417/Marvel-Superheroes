@@ -1,10 +1,10 @@
-name: Create S3 Bucket
+name: Create Infrastructure (S3 + CloudFront)
+
 on:
-  workflow_dispatch:
-  push:
-    paths:
-      - 'infra/deploy/s3_bucket/**'
-      - '.github/workflows/infra-deploy.yml'
+  workflow_run:
+    workflows: ["Create CloudFront OAI"]
+    types:
+      - completed
 
 jobs:
   terraform:
@@ -27,18 +27,44 @@ jobs:
       - name: Install Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.12.2
+          terraform_version: 1.7.5
 
-      - name: Terraform Init, Apply and Save Output
+      - name: Download OAI Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: oai-terraform-outputs
+          path: oai_output
+
+      - name: Extract OAI ID
+        id: extract_oai
+        run: |
+          OAI_ID=$(jq -r '.cloudfront_oai_id.value' oai_output/tf_outputs.json)
+          echo "cloudfront_oai_id=$OAI_ID" >> $GITHUB_OUTPUT
+
+      - name: Terraform Apply (S3)
         run: |
           cd infra/deploy/s3_bucket
           terraform init
-          terraform apply -auto-approve
-          terraform output -json > tf_outputs.json
+          terraform apply -auto-approve \
+            -var="cloudfront_oai_id=${{ steps.extract_oai.outputs.cloudfront_oai_id }}"
+          terraform output -json > ../../tmp/s3_outputs.json
 
-      - name: Upload tf_outputs.json as Artifact
+      - name: Terraform Apply (CloudFront)
+        run: |
+          cd infra/deploy/cloudfront
+          terraform init
+          terraform apply -auto-approve \
+            -var="s3_bucket_domain_name=$(jq -r '.bucket_domain_name.value' ../../tmp/s3_outputs.json)" \
+            -var="cloudfront_oai_id=${{ steps.extract_oai.outputs.cloudfront_oai_id }}"
+          terraform output -json > ../../tmp/cloudfront_outputs.json
+
+      - name: Merge Outputs
+        run: |
+          mkdir -p merged
+          jq -s '.[0] * .[1]' tmp/s3_outputs.json tmp/cloudfront_outputs.json > merged/tf_outputs.json
+
+      - name: Upload tf_outputs.json
         uses: actions/upload-artifact@v4
         with:
           name: terraform-outputs
-          path: infra/deploy/s3_bucket/tf_outputs.json
-
+          path: merged/tf_outputs.json

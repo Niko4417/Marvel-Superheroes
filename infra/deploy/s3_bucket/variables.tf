@@ -25,3 +25,8 @@ variable "error_doc" {
   type        = string
   default     = "error.html"
 }
+
+variable "cloudfront_oai_id" {
+  description = "The OAI ID from the CloudFront module"
+  type = string
+}
