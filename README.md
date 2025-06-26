@@ -68,8 +68,8 @@ Replace `your-unique-bucket-name` in the JSON below:
       "Sid": "PublicReadGetObject",
       "Effect": "Allow",
       "Principal": "*",
-      "Action": "deploy:GetObject",
-      "Resource": "arn:aws:deploy:::your-unique-bucket-name/*"
+      "Action": "s3:GetObject",
+      "Resource": "arn:aws:s3:::your-unique-bucket-name/*"
     }
   ]
 }
