@@ -11,7 +11,11 @@ This guide explains how to build and deploy your Vue frontend application to an 
 - Webapp with a build-ready structure (` npm run build`)
 - Terraform installed ([Install Guide](https://developer.hashicorp.com/terraform/tutorials/aws-get-started/install-cli))
 
+
+## Full Automation is WIP
+
 ---
+
 <details>
   <summary>Legacy workflow (GitHub Actions → S3 + CloudFront, no Terraform)</summary>
 
@@ -113,7 +117,7 @@ The deployment workflow is defined in:
 .github/workflows/build-and.deploy.yml
 ```
 
- [View deploy.yml](.github/workflows/app-deploy.yml)
+ [View deploy.yml](.github/workflows/legacy-workflow.yml)
 
 ---
 
