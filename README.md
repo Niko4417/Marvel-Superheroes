@@ -125,8 +125,8 @@ The deployment workflow is defined in:
 
 1. **Trigger:** Runs automatically on each push to the `master` branch
 2. **Build:** Installs dependencies and builds the app with `npm run build`
-3. **Deploy:** Syncs the `dist/` directory to the specified S3 bucket
-4. **Invalidate Cache:** Issues a CloudFront invalidation to make updates visible immediately
+3. **Deploy:** Syncs the `dist/` directory to the specified S3 bucket (Replace Bucket path with yours)
+4. **Invalidate Cache:** Issues a CloudFront invalidation to make updates visible immediately (Replace Cloudfront ID with yours)
 
 ---
 
