@@ -30,13 +30,13 @@ npm run build
 ### 2. Create the S3 Bucket
 
 ```bash
-aws deploy mb deploy://your-unique-bucket-name --region eu-central-1
+aws s3 mb s3://your-unique-bucket-name --region eu-central-1
 ```
 
 **Verify the bucket:**
 
 ```bash
-aws deploy ls
+aws s3 ls
 ```
 
 ---
@@ -44,7 +44,7 @@ aws deploy ls
 ### 3. Upload Build Files to S3
 
 ```bash
-aws deploy sync dist/ deploy://your-unique-bucket-name --delete
+aws s3 sync dist/ s3://your-unique-bucket-name --delete
 ```
 
 ---
